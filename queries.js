@@ -1,14 +1,16 @@
-const { Client } = require("pg");
-const client = new Client({
-  user: "postgres",
-  host: "portfolio.cw1eatt4kyyo.us-west-2.rds.amazonaws.com",
-  database: "portfolio",
-  password: "password",
-  port: 5432,
+const { Pool } = require("pg");
+const info = require("./env");
+
+const pool = new Pool({
+  user: info.user,
+  host: info.host,
+  database: info.database,
+  password: info.password,
+  port: info.port,
 });
 
 const getProjects = (request, response) => {
-  client.query("SELECT * FROM projects ORDER BY id ASC", (error, results) => {
+  pool.query("SELECT * FROM projects", (error, results) => {
     if (error) {
       throw error;
     }
